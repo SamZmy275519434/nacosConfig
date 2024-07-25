@@ -15,7 +15,7 @@ jobs:
 
       - name: Sync Nacos Config
         run: |
-          NAMESPACE_ID='zmy'
+          $env:NAMESPACE_ID='zmy'
           
           echo Syncing application-common.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=application-common.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
