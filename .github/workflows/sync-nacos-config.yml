@@ -13,21 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Debug Nacos Config File
-        run: |
-          echo "Current directory:"
-          cd
-          dir
-          
-          echo "Reading application-common.yml"
-          type nacosConfig\application-common.yml
-          echo "Reading cloud-gateway-service.yml"
-          type nacosConfig\cloud-gateway-service.yml
-          echo "Reading cloud-sys-service.yml"
-          type nacosConfig\cloud-sys-service.yml
-          echo "Reading cloud-report-service.yml"
-          type nacosConfig\cloud-report-service.yml
-
       - name: Sync Nacos Config
         run: |
           NAMESPACE_ID='zmy'
