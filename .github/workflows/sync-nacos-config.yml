@@ -1,0 +1,23 @@
+name: Sync Nacos Config
+
+on:
+  push:
+    paths:
+      - 'nacosConfig/**'
+      
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Sync Nacos Config
+      run: |
+        curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=application-common.yml&group=DEV_GROUP' \
+             -d "content=$(cat nacosConfig/application-common.yml)"
+        curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-sys-service.yml&group=DEV_GROUP' \
+             -d "content=$(cat nacosConfig/cloud-sys-service.yml)"
+        curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-gateway-service.yml&group=DEV_GROUP' \
+             -d "content=$(cat nacosConfig/cloud-gateway-service.yml)"
+        curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-report-service.yml&group=DEV_GROUP' \
+             -d "content=$(cat nacosConfig/cloud-report-service.yml)"
