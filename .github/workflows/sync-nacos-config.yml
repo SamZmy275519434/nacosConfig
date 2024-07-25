@@ -14,10 +14,15 @@ jobs:
     - name: Sync Nacos Config
       run: |
         curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=application-common.yml&group=DEV_GROUP' \
-             -d "content=$(cat nacosConfig/application-common.yml)"
+         -d "content=$(cat nacosConfig/application-common.yml)"
+        echo "application-common.yml synced"
         curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-sys-service.yml&group=DEV_GROUP' \
-             -d "content=$(cat nacosConfig/cloud-sys-service.yml)"
+         -d "content=$(cat nacosConfig/cloud-sys-service.yml)"
+        echo "cloud-sys-service.yml synced"
         curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-gateway-service.yml&group=DEV_GROUP' \
-             -d "content=$(cat nacosConfig/cloud-gateway-service.yml)"
+         -d "content=$(cat nacosConfig/cloud-gateway-service.yml)"
+        echo "cloud-gateway-service.yml synced"
         curl -X POST 'http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-report-service.yml&group=DEV_GROUP' \
-             -d "content=$(cat nacosConfig/cloud-report-service.yml)"
+         -d "content=$(cat nacosConfig/cloud-report-service.yml)"
+        echo "cloud-report-service.yml synced"
+
