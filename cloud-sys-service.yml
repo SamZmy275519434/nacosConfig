@@ -45,4 +45,4 @@ logging:
   level:
     io:
       seata: info
-nacos.git: test
+nacos.git: testtest
