@@ -19,20 +19,20 @@ jobs:
           
           echo Syncing application-common.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=application-common.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(<nacosConfig\application-common.yml)"
+               -d "content=$content"
           echo "application-common.yml synced"
           
           echo Syncing cloud-gateway-service.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-gateway-service.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(<nacosConfig\cloud-gateway-service.yml)"
+               -d "content=$content"
           echo "cloud-gateway-service.yml synced"
           
           echo Syncing cloud-sys-service.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-sys-service.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(<nacosConfig\cloud-sys-service.yml)"
+               -d "content=$content"
           echo "cloud-sys-service.yml synced"
           
           echo Syncing cloud-report-service.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-report-service.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(<nacosConfig\cloud-report-service.yml)"
+               -d "content=$content"
           echo "cloud-report-service.yml synced"
