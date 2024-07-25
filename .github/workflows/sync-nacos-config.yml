@@ -15,6 +15,10 @@ jobs:
 
       - name: Debug Nacos Config File
         run: |
+          echo "Current directory:"
+          cd
+          dir
+          
           echo "Reading application-common.yml"
           type nacosConfig\application-common.yml
           echo "Reading cloud-gateway-service.yml"
