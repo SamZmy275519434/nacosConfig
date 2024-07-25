@@ -16,7 +16,6 @@ jobs:
         run: |
           echo "Current directory:"
           cd
-          dir
       - name: Sync Nacos Config
         run: |
           $env:NAMESPACE_ID='zmy' # nacos中命名空间
