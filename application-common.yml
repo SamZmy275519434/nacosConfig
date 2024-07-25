@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    sentinel:
+      transport:
+        # 配置Sentinel dashboard地址
+        dashboard: 192.168.1.142:8080
+  # 国际化
+  messages:
+    # 设置国际化消息是否总是采用格式化，默认是false
+    always-use-message-format: false
+    # 设置国际化属性名称，如果有多个可以使用逗号分隔，默认为messages
+    basename: i18n/messages
+    # 设置国际化消息缓存超时秒数，默认为永远不过期，如果为0表示每次都重新加载
+    cache-duration:
+    # 如果没有找到特定区域设置的文件，则设置是否返回系统区域设置
+    fallback-to-system-locale: true
+    # 是否使用消息编码作为默认的响应消息，而非抛出NoSuchMessageException
+    use-code-as-default-message: true
+    # 国际化消息编码
+    encoding: UTF-8
