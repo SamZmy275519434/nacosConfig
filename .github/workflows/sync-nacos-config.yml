@@ -12,13 +12,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Debug Current Directory
+        run: |
+          echo "Current directory:"
+          cd
+          dir
       - name: Sync Nacos Config
         run: |
-          $env:NAMESPACE_ID='zmy'
+          $env:NAMESPACE_ID='zmy' # nacos中命名空间
           
-          $env:NAMESPACE_ID='zmy'
+          # 读取文件内容
+          $content = Get-Content -Raw $filePath
           
+          # 定义请求URL 和Body体
           function Sync-Config {
               param (
                   [string]$dataId,
