@@ -1,0 +1,88 @@
+server:
+  port: 9900
+spring:
+  cache:
+    redis:
+      key-prefix: '${spring.application.name}:'
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #开启通过服务中心的自动根据 serviceId 创建路由的功能
+          enabled: true
+      routes:
+        - id: cloud-order-service
+          uri: lb://cloud-order-service
+          predicates:
+            - Path=/order/**
+        - id: cloud-payment-service
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/pay/**
+        - id: cloud-sys-service
+          uri: lb://cloud-sys-service
+          predicates:
+            - Path=/sys/**
+      predicate:
+        weight:
+          #如果不加这个,当使用ReactiveFeign时,程序无法正常启动
+          #https://github.com/alibaba/spring-cloud-alibaba/issues/2467#issuecomment-1208823929
+          enabled: false
+  data:
+    redis:
+      database: 13
+      host: 192.168.1.244
+      port: 6379
+      jedis:
+        pool:
+          max-active: 100
+          max-idle: 3
+          max-wait: -1
+          min-idle: 0
+      timeout: PT30M
+  security:
+    concurrent-session-control:
+      maximum-sessions: 5
+      exception-if-maximum-exceeded: false
+    login-fail-check:
+      #时间窗口（分钟）
+      time-window: 1
+      #最大失败次数，大于等于1为有效值
+      max-error-cnt: 3
+      #锁定时间（分钟）
+      lock-time: 5
+    no-login-access-check:
+      #时间窗口（分钟）
+      time-window: 1
+      #最大失败次数，大于等于1为有效值
+      max-error-cnt: 3
+      #锁定时间（分钟）
+      lock-time: 5
+session:
+  redis:
+    #spring session，如果使用了@EnableRedisWebSession，则下面配置无效，需要在注解中配置
+    namespace: ${spring.cache.redis.key-prefix}spring:session
+  # 以P开始，用T分割日期和时间，每个单位都必须由数字开始,且时分秒顺序不能乱。默认30分钟。当设置小于1分钟时会被重置为1分钟。
+  # 这里不设置，会取server.servlet.session.timeout、server.reactive.session.timeout的配置值
+  #timeout: PT2H
+
+rsa:
+  public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbsHUDwk9XbPLwVQsWTaSX0HDurrordTSwCesBGEnSGySKo+pbGEE8CL+rbnYhhImKYp3GYw+J3VXy3HGT6JXzwHHVPEtLzoNySR9pi535Us3vUGie8Jtqx8cZNB2KKUbJWHluF90Dhc+ThUo0uoyecGPuxNFVpYDZqolygvoknwIDAQAB
+  private-key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJuwdQPCT1ds8vBVCxZNpJfQcO6uuit1NLAJ6wEYSdIbJIqj6lsYQTwIv6tudiGEiYpincZjD4ndVfLccZPolfPAcdU8S0vOg3JJH2mLnflSze9QaJ7wm2rHxxk0HYopRslYeW4X3QOFz5OFSjS6jJ5wY+7E0VWlgNmqiXKC+iSfAgMBAAECgYADKIm/KUZ1xhKJmJgQfEO+Bq770JSbRBXtCk53p7f7qKxNmbSr42qTXrQQtL11wZwOsCB2QVUz3UccladCMmI0VvVJR0JxmMg1JWDfmZpy6yUi65I+h42JmZcLLbYi362AV4OgX4vugkZQ3F0ZXJSTEF6R01xQKT0TDEG0l83f9QJBAO5hWrk9vJAxY5QyA/XHZGvZQLyVrL9k7MWht1qo6+IQGDlDYrrorFDlDYinJseb8jLzDywKZ0tWg2trW3O7BC0CQQCnMmsx8fSs+vDYKTBZRUu2teWblzwsAEJKzq5vx38GJ5KZZHizQYtAshQ/2Ip/IaZgv6/Cuh9AOLknxRAgMo97AkEA1brkJQJ9dqtRpSXS9yL3ntsDeBKa+F/9CpWcV+Ts2ZuknHMWqo7DMSStpcB4vK/N0HCtQcdyJdJDsqRnMrSTYQJARoxCqOdkC10zJLJ0gSZ5JRYpVPaCYDqXvkLpXab61Rj7hZfcSh7c6CZ73ti6z5vePTKEshCgwRNuJPbEsCFFYwJAZuvSL+j2O1CcB9fGkWbnwCij1Nw5+Y8BjkD7cj0RIxBFcEARQOZ78YTUkkXfopGoShRfSVQW/99eSpibZo0X1w==
+
+logging:
+  level:
+    com:
+      zmy:
+        cloud:
+          payment:
+            api:
+              PayFeign: debug
+# zipkin图形展现地址和采样率设置
+# management:
+#   zipkin:
+#     tracing:
+#       endpoint: http://localhost:9411/api/v2/spans
+#   tracing:
+#     sampling:
+#       probability: 1.0 #采样率默认为0.1(0.1就是10次只能有一次被记录下来)，值越大收集越及时。
