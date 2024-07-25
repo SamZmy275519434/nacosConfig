@@ -1,0 +1,48 @@
+server:
+  port: 8820
+
+spring:
+  cache:
+    redis:
+      key-prefix: '${spring.application.name}:'
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.244:3306/jet_shsjcb_pemp_sys_dev?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+    username: root
+    #    password: jizhongjieneng9-28
+    password: ENC(7OnO7BCJtI6uVkabcdAnt3IPBlIG6f2uFvA7h5mkepQ=)
+
+# ========================mybatis-plus===================
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  # 打印sql语句
+  #  configuration:
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.zmy.cloud.mapper
+# management:
+#   zipkin:
+#     tracing:
+#       endpoint: http://localhost:9411/api/v2/spans
+#   tracing:
+#     sampling:
+#       probability: 1.0 #采样率默认为0.1(0.1就是10次只能有一次被记录下来)，值越大收集越及时。
+# ========================seata===================
+seata:
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 192.168.1.142:8848
+      namespace: zmy
+      group: DEV_GROUP
+      application: seata-server
+  tx-service-group: default_tx_group # 事务组，由它获得TC服务的集群名称
+  service:
+    vgroup-mapping: # 点击源码分析
+      default_tx_group: default # 事务组与TC服务集群的映射关系
+  data-source-proxy-mode: AT
+
+logging:
+  level:
+    io:
+      seata: info
+nacos.git: test
