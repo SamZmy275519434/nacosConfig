@@ -2,8 +2,9 @@ name: Sync Nacos Config
 
 on:
   push:
-    paths:
-      - 'nacosConfig/**'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   sync:
