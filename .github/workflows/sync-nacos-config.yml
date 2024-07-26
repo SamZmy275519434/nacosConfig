@@ -14,39 +14,30 @@ jobs:
         uses: actions/checkout@v2
       - name: Debug Nacos Config File
         run: |
+          cd nacosConfig
           echo "Current directory:"
           cd
-          echo "Directory contents:"
           dir
-          echo "Reading application-common.yml"
-          type nacosConfig\application-common.yml
-          echo "Reading cloud-gateway-service.yml"
-          type nacosConfig\cloud-gateway-service.yml
-          echo "Reading cloud-sys-service.yml"
-          type nacosConfig\cloud-sys-service.yml
-          echo "Reading cloud-report-service.yml"
-          type nacosConfig\cloud-report-service.yml
-
       - name: Sync Nacos Config
         run: |
           $env:NAMESPACE_ID='zmy'
           
           echo Syncing application-common.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=application-common.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(content)"
+               -d "content=$(type nacosConfig\application-common.yml)"
           echo "application-common.yml synced"
           
           echo Syncing cloud-gateway-service.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-gateway-service.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(content)"
+               -d "content=$(type nacosConfig\cloud-gateway-service.yml)"
           echo "cloud-gateway-service.yml synced"
           
           echo Syncing cloud-sys-service.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-sys-service.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(content)"
+               -d "content=$(type nacosConfig\cloud-sys-service.yml)"
           echo "cloud-sys-service.yml synced"
           
           echo Syncing cloud-report-service.yml...
           curl -X POST "http://192.168.1.142:8848/nacos/v1/cs/configs?dataId=cloud-report-service.yml&group=DEV_GROUP&tenant=$env:NAMESPACE_ID" ^
-               -d "content=$(content)"
+               -d "content=$(type nacosConfig\cloud-report-service.yml)"
           echo "cloud-report-service.yml synced"
